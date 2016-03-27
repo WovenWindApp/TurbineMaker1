@@ -1,6 +1,7 @@
 package edu.umich.turbinemaker1;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,7 +50,8 @@ public class MainScreen extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     };
     private View mControlsView;
@@ -98,14 +100,14 @@ public class MainScreen extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        show();
+        setNavBar();
 
 
         // Screen-touch -> reset starting UI (low profile)
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                show();
+                setNavBar();
             }
         });
 
@@ -121,19 +123,13 @@ public class MainScreen extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        // No longer hide on start, call show to set UI to overlay
-        //show();
+
     }
 
-    private void toggle() {
-        if (mVisible) {
-            hide();
-        } else {
-            show();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setNavBar();
     }
 
     private void hide() {
@@ -151,8 +147,8 @@ public class MainScreen extends AppCompatActivity {
     }
 
     @SuppressLint("InlinedApi")
-    private void show() {
-        // Show the system bar
+    private void setNavBar() {
+        // Set to low profile mode, hide top bar
         mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -171,4 +167,15 @@ public class MainScreen extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+    /**
+     * BUTTON RESPONSES HERE _____________
+     */
+    public void goToPartActivity(View view) {
+        // Create intent
+        Intent partIntent = new Intent(this, PartListActivity.class);
+        startActivity(partIntent);
+    }
+
+
 }

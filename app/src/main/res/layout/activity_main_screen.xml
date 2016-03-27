@@ -46,6 +46,7 @@
 
             <Button
                 android:id="@+id/main_screen_button_1"
+                android:onClick="goToPartActivity"
                 android:background="@drawable/main_screen_button"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
