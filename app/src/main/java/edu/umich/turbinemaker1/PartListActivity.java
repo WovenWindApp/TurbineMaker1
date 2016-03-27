@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
@@ -16,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import edu.umich.turbinemaker1.dummy.DummyContent;
+import edu.umich.turbinemaker1.parts.PartsContent;
 
 import java.util.List;
 
@@ -36,15 +34,16 @@ public class PartListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    // global view for hiding nav
+    View navView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_part_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
-
+        // TURN THIS INTO A DONE BUTTON
+        // TODO new textures and interaction
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +52,7 @@ public class PartListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        // /REPLACE ME
 
         View recyclerView = findViewById(R.id.part_list);
         assert recyclerView != null;
@@ -65,18 +65,38 @@ public class PartListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+        // Set up nav controls (called in onStart)
+        navView = findViewById(R.id.navbar_control);
+
+    }
+
+    protected void onStart(){
+        super.onStart();
+
+        // Hide top bar, set low profile mode
+        setNavBar();
+
+        // Screen-touch -> reset starting UI (low profile)
+        navView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setNavBar();
+            }
+        });
+
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PartsContent.ITEMS));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<PartsContent.Part> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
+        public SimpleItemRecyclerViewAdapter(List<PartsContent.Part> items) {
             mValues = items;
         }
 
@@ -124,7 +144,7 @@ public class PartListActivity extends AppCompatActivity {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public PartsContent.Part mItem;
 
             public ViewHolder(View view) {
                 super(view);
@@ -138,5 +158,11 @@ public class PartListActivity extends AppCompatActivity {
                 return super.toString() + " '" + mContentView.getText() + "'";
             }
         }
+    }
+
+    private void setNavBar() {
+        navView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LOW_PROFILE);
     }
 }
