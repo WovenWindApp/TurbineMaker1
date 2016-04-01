@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.umich.turbinemaker1.parts.PartsContent;
@@ -59,9 +61,15 @@ public class PartDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.part_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+
         if (mItem != null) {
+            // Show the dummy content as text in a TextView.
             ((TextView) rootView.findViewById(R.id.part_detail)).setText(mItem.details);
+
+
+            // Animate blade rotations
+            ImageView blades = (ImageView) rootView.findViewById(R.id.blades_imageView);
+            blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
         }
 
         return rootView;

@@ -28,11 +28,13 @@ public class PartsContent {
         Part blades = new Part("Blades", "", "BLADES DETAILS HERE");
         Part structure = new Part("Structure", "", "STRUCTURE DETAILS HERE");
         Part output = new Part("Output", "", "OUTPUT DETAILS HERE");
+        Part location = new Part("Location", "", "LOCATION DETAILS HERE");
 
         // Add items
         addItem(blades);
         addItem(structure);
         addItem(output);
+        addItem(location);
     }
 
     private static void addItem(Part item) {
