@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import edu.umich.turbinemaker1.parts.PartsContent;
+
 
 /**
  * A fragment representing a single Part detail screen.
@@ -20,6 +24,7 @@ import edu.umich.turbinemaker1.parts.PartsContent;
  * on handsets.
  */
 public class PartDetailFragment extends Fragment {
+
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -42,6 +47,8 @@ public class PartDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
@@ -62,16 +69,42 @@ public class PartDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.part_detail, container, false);
 
 
+        // Stops the spinner from spreading its goddamn cancer ebola
+        ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
         if (mItem != null) {
-            // Show the dummy content as text in a TextView.
+            // Show corresponding details text
             ((TextView) rootView.findViewById(R.id.part_detail)).setText(mItem.details);
 
-
-            // Animate blade rotations
-            ImageView blades = (ImageView) rootView.findViewById(R.id.blades_imageView);
-            blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+            // Set up blades page
+            if (mItem.id.equals("Blades")) {
+                setBladesImage(rootView);
+            }
         }
+
+
 
         return rootView;
     }
+
+    public void setBladesImage(View view) {
+        // Set up spinner
+        Spinner bladeTypeMenu = (Spinner) view.findViewById(R.id.part_spinner);
+        ArrayAdapter<CharSequence> bladeTypeAdapter =
+                ArrayAdapter.createFromResource(getContext(), R.array.blade_type_array,
+                                                android.R.layout.simple_spinner_item);
+        bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bladeTypeMenu.setAdapter(bladeTypeAdapter);
+
+        // Set up imageView
+        ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
+        blades.getLayoutParams().height = 400;
+        blades.getLayoutParams().width = 400;
+        blades.setImageResource(R.drawable.paddles_test);
+
+        // Animate that shit
+        blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+    }
+
 }
