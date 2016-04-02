@@ -4,19 +4,49 @@
     android:layout_height="match_parent"
     tools:context="edu.umich.turbinemaker1.PartDetailFragment">
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/part_detail"
-    style="?android:attr/textAppearanceLarge"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="false"
-    tools:context="edu.umich.turbinemaker1.PartDetailFragment" />
+    <ImageView
+        android:id="@+id/bg_imageView"
+        android:layout_width="800dp"
+        android:layout_height="600dp"
+        android:layout_gravity="center"
+        android:src="@drawable/blueprint3" />
+
+    <ImageView
+        android:id="@+id/part_imageView"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|bottom" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top">
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/part_detail"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textIsSelectable="false"
+            tools:context="edu.umich.turbinemaker1.PartDetailFragment"
+            android:layout_gravity="start|top" />
+
+        <Spinner
+            android:id="@+id/part_spinner"
+            android:layout_below="@id/part_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:overlapAnchor="false"
+            android:popupBackground="#22000000">
+
+        </Spinner>
+    </RelativeLayout>
 
 
 </FrameLayout>

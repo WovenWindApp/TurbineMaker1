@@ -5,4 +5,20 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_part_list">Parts</string>
     <string name="title_part_detail">Part Detail</string>
+
+
+    <!--Main Screen Strings-->
+    <string name="new_game">New Game</string>
+    <string name="about">About</string>
+
+    <!--PartsList Strings-->
+    <string name="part_image_desc">Contains preview of parts while constructing</string>
+
+    <!--Dropdown strings-->
+    <string-array name="blade_type_array">
+        <item>Paddle</item>
+        <item>Dummy</item>
+    </string-array>
+
+
 </resources>
