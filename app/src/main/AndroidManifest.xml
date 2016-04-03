@@ -4,8 +4,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/wwlogo"
         android:label="@string/app_name"
+        android:screenOrientation="sensorLandscape"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -16,13 +18,12 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".PartListActivity"
             android:label="@string/title_part_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".PartDetailActivity"
             android:label="@string/title_part_detail"
@@ -31,6 +32,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.umich.turbinemaker1.PartListActivity" />
+        </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

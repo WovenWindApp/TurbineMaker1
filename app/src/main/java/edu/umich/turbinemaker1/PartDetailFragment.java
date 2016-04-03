@@ -1,6 +1,7 @@
 package edu.umich.turbinemaker1;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -47,7 +49,10 @@ public class PartDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Force landscape mode, remove action bar
+        ((Activity) getContext()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
@@ -97,14 +102,37 @@ public class PartDetailFragment extends Fragment {
         bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
-        // Set up imageView
-        ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
+        final ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
         blades.getLayoutParams().height = 400;
         blades.getLayoutParams().width = 400;
-        blades.setImageResource(R.drawable.paddles_test);
-
-        // Animate that shit
         blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+
+        // Respond to dropdown
+        bladeTypeMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("Paddle")) {
+                    // Set paddle image
+                    blades.setImageResource(R.drawable.paddles_test);
+                }
+                else if (parent.getItemAtPosition(position).equals("Airfoil")) {
+                    // Set airfoils image
+                    blades.setImageResource(R.drawable.airfoil_blades);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+        });
+
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Nothing yet
     }
 
 }
