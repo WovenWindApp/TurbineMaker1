@@ -17,7 +17,7 @@
     <!--Dropdown strings-->
     <string-array name="blade_type_array">
         <item>Paddle</item>
-        <item>Dummy</item>
+        <item>Airfoil</item>
     </string-array>
 
 
