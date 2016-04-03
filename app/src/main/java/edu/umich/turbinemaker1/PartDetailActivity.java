@@ -2,6 +2,7 @@ package edu.umich.turbinemaker1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,10 +26,7 @@ public class PartDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_part_detail);
 
-        // WE DON'T SERVE YOU TOOLBAR SCUM AROUND HERE
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-//        setSupportActionBar(toolbar);
-
+        // Remove action bar
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // TODO turn this into a done button
@@ -40,13 +38,6 @@ public class PartDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        // remove pleb action bar
-        // Show the Up button in the action bar.
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -63,6 +54,7 @@ public class PartDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(PartDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(PartDetailFragment.ARG_ITEM_ID));
+
             PartDetailFragment fragment = new PartDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

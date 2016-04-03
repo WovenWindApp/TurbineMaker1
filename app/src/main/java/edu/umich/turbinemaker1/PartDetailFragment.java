@@ -1,6 +1,7 @@
 package edu.umich.turbinemaker1;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,7 +48,10 @@ public class PartDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Force landscape mode, remove action bar
+        ((Activity) getContext()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
