@@ -2,6 +2,7 @@ package edu.umich.turbinemaker1;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,11 +41,7 @@ public class MainScreen extends AppCompatActivity {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            // Delayed removal of status and navigation bar
 
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
             mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -95,10 +92,20 @@ public class MainScreen extends AppCompatActivity {
 
         setContentView(R.layout.activity_main_screen);
 
+
+        /**
+         *
+         * Place this in onCreate of every new activity
+         */
+        // Force landscape mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        // Set low profile mode
         setNavBar();
 
 
@@ -110,12 +117,6 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-
-        // Main screen buttons
-        Button button_1 = (Button) findViewById(R.id.main_screen_button_1);
     }
 
     @Override
@@ -168,8 +169,10 @@ public class MainScreen extends AppCompatActivity {
     }
 
     /**
-     * BUTTON RESPONSES HERE _____________
+     * BUTTON RESPONSES
      */
+
+    // New Game button
     public void goToPartActivity(View view) {
         // Create intent
         Intent partIntent = new Intent(this, PartListActivity.class);
