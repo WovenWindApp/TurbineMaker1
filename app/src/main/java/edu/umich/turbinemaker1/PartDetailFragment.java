@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.umich.turbinemaker1.parts.PartsContent;
 
@@ -26,7 +29,6 @@ import edu.umich.turbinemaker1.parts.PartsContent;
  * on handsets.
  */
 public class PartDetailFragment extends Fragment {
-
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -66,13 +68,14 @@ public class PartDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.part_detail, container, false);
-
 
         // Stops the spinner from spreading its goddamn cancer ebola
         ((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -81,13 +84,14 @@ public class PartDetailFragment extends Fragment {
         if (mItem != null) {
             // Show corresponding details text
             ((TextView) rootView.findViewById(R.id.part_detail)).setText(mItem.details);
-
+            if(mItem.id.equals("Blades") || mItem.id.equals("Structure")){
+                setUpSlider(rootView, mItem.id);
+            }
             // Set up blades page
             if (mItem.id.equals("Blades")) {
                 setBladesImage(rootView);
             }
         }
-
 
 
         return rootView;
@@ -98,7 +102,7 @@ public class PartDetailFragment extends Fragment {
         Spinner bladeTypeMenu = (Spinner) view.findViewById(R.id.part_spinner);
         ArrayAdapter<CharSequence> bladeTypeAdapter =
                 ArrayAdapter.createFromResource(getContext(), R.array.blade_type_array,
-                                                android.R.layout.simple_spinner_item);
+                        android.R.layout.simple_spinner_item);
         bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
@@ -114,8 +118,7 @@ public class PartDetailFragment extends Fragment {
                 if (parent.getItemAtPosition(position).equals("Paddle")) {
                     // Set paddle image
                     blades.setImageResource(R.drawable.paddles_test);
-                }
-                else if (parent.getItemAtPosition(position).equals("Airfoil")) {
+                } else if (parent.getItemAtPosition(position).equals("Airfoil")) {
                     // Set airfoils image
                     blades.setImageResource(R.drawable.airfoil_blades);
                 }
@@ -131,6 +134,53 @@ public class PartDetailFragment extends Fragment {
 
     }
 
+    public void setUpSlider(View view, String name) {
+        //set up the seek bar
+        final SeekBar seek_bar = (SeekBar) view.findViewById(R.id.seek_bar);
+        seek_bar.setMax(6);
+        seek_bar.setProgress(3);
+        //declare these final so they can be passed into the set listener function
+        final TextView text_view = (TextView) view.findViewById(R.id.seek_bar_percent);
+        final String part_name = name;
+        final View view_final = view;
+
+        //set the viewed text to the following:
+        text_view.setText("Bar Progress : " + seek_bar.getProgress());
+        seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            //when the progress changes, we change the size of the object
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(part_name.equals("Blades")) {
+                    final ImageView blades = (ImageView) view_final.findViewById(R.id.part_imageView);
+                    if(progress > 3) {
+                        blades.getLayoutParams().height = 400 + 25*progress;
+                        blades.getLayoutParams().width = 400 + 25*progress;
+                    }
+                    else if(progress == 3){
+                        blades.getLayoutParams().height = 400;
+                        blades.getLayoutParams().width = 400;
+                    }
+                    else if(progress < 3) {
+                        blades.getLayoutParams().height = 400 - 25*(3 - progress);
+                        blades.getLayoutParams().width = 400 - 25*(3 - progress);
+                    }
+                    blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+                }
+                text_view.setText(part_name + " size : " + (progress + 1));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+    }
     public void onNothingSelected(AdapterView<?> parent) {
         // Nothing yet
     }
