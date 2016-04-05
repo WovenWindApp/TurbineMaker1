@@ -1,7 +1,12 @@
 package edu.umich.turbinemaker1;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.RotateDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -108,10 +113,12 @@ public class PartDetailFragment extends Fragment {
         bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
+        // Set up ImageView (source set below in dropdown response)
         final ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
         blades.getLayoutParams().height = 400;
         blades.getLayoutParams().width = 400;
-        blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+
+        //blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
 
         // Respond to dropdown
         bladeTypeMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -133,6 +140,12 @@ public class PartDetailFragment extends Fragment {
 
 
         });
+
+        // Create AnimatorSet for blades
+        AnimatorSet bladesSet = (AnimatorSet) AnimatorInflater.
+                                    loadAnimator(getContext(), R.animator.blades_rotation);
+        bladesSet.setTarget(blades);    // target ImageView
+        bladesSet.start();
 
     }
 
@@ -160,7 +173,7 @@ public class PartDetailFragment extends Fragment {
 
                 part_imageView.getLayoutParams().height = 300 + (2 * progress);
                 part_imageView.getLayoutParams().width = 300 + (2 * progress);
-                part_imageView.getAnimation().reset();
+                //part_imageView.getAnimation().reset();
 
 
                 seekBar_text.setText(part_name + " size : " + (progress + 1));
