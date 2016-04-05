@@ -1,4 +1,4 @@
-Turbine Maker
+﻿Turbine Maker
 Woven Wind
 
 [Work in progress]
@@ -10,6 +10,7 @@ Built for Nexus 7 (2012) 1280x800
 
 Made by
 Dylan Lynch			dqlynch@umich.edu
-Izak Fritz (a little)		thrasher420yolo69@hotmail.aol.yahoo.bing.com
+Izak Fritz 			izakfr@umich.edu
+fixed it
 
-		he can fix this when he learns git -—^
+
