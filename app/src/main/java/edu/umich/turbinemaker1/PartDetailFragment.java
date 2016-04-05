@@ -19,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Time;
+
 import edu.umich.turbinemaker1.parts.PartsContent;
 
 
@@ -135,38 +137,33 @@ public class PartDetailFragment extends Fragment {
     }
 
     public void setUpSlider(View view, String name) {
-        //set up the seek bar
-        final SeekBar seek_bar = (SeekBar) view.findViewById(R.id.seek_bar);
-        seek_bar.setMax(6);
-        seek_bar.setProgress(3);
-        //declare these final so they can be passed into the set listener function
-        final TextView text_view = (TextView) view.findViewById(R.id.seek_bar_percent);
+        // Set up the seek bar
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
+        seekBar.setMax(99);
+        seekBar.setProgress(50);
+
+        // Declare these final so they can be passed into the set listener function
+        final TextView seekBar_text = (TextView) view.findViewById(R.id.seek_bar_percent);
         final String part_name = name;
         final View view_final = view;
 
-        //set the viewed text to the following:
-        text_view.setText("Bar Progress : " + seek_bar.getProgress());
-        seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // Set the viewed text to the following:
+        seekBar_text.setText("Bar Progress : " + seekBar.getProgress());
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            // ImageView handle
+            final ImageView part_imageView = (ImageView) view_final.findViewById(R.id.part_imageView);
+
+            // When progress changes, change size of blades
             @Override
-            //when the progress changes, we change the size of the object
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(part_name.equals("Blades")) {
-                    final ImageView blades = (ImageView) view_final.findViewById(R.id.part_imageView);
-                    if(progress > 3) {
-                        blades.getLayoutParams().height = 400 + 25*progress;
-                        blades.getLayoutParams().width = 400 + 25*progress;
-                    }
-                    else if(progress == 3){
-                        blades.getLayoutParams().height = 400;
-                        blades.getLayoutParams().width = 400;
-                    }
-                    else if(progress < 3) {
-                        blades.getLayoutParams().height = 400 - 25*(3 - progress);
-                        blades.getLayoutParams().width = 400 - 25*(3 - progress);
-                    }
-                    blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
-                }
-                text_view.setText(part_name + " size : " + (progress + 1));
+
+                part_imageView.getLayoutParams().height = 300 + (2 * progress);
+                part_imageView.getLayoutParams().width = 300 + (2 * progress);
+                part_imageView.getAnimation().reset();
+
+
+                seekBar_text.setText(part_name + " size : " + (progress + 1));
             }
 
             @Override
