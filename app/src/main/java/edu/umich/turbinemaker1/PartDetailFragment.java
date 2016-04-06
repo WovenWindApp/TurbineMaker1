@@ -158,19 +158,18 @@ public class PartDetailFragment extends Fragment {
 
         });
 
-        setUpSlider(view, "Blades", numBlades, blades);
+        setUpBladeSizeSlider(view, "Blades", numBlades, blades);
     }
 
-    public void setUpSlider(View view, String name, final int numBlades, final ImageView[] blades) {
+    public void setUpBladeSizeSlider(View view, String name, final int numBlades, final ImageView[] blades) {
         // Set up the seek bar
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.part_size_seek_bar);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.part_size_seekBar);
         seekBar.setMax(99);
         seekBar.setProgress(50);
 
         // Declare these final so they can be passed into the set listener function
-        final TextView seekBar_text = (TextView) view.findViewById(R.id.part_size_percent);
+        final TextView seekBar_text = (TextView) view.findViewById(R.id.part_size_textView);
         final String part_name = name;
-        final View view_final = view;
 
         // Set the viewed text to the following:
         seekBar_text.setText(part_name + " size : " + (seekBar.getProgress() + 1));
