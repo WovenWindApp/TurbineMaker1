@@ -1,30 +1,24 @@
 package edu.umich.turbinemaker1;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.RotateDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.sql.Time;
 
 import edu.umich.turbinemaker1.parts.PartsContent;
 
@@ -91,9 +85,6 @@ public class PartDetailFragment extends Fragment {
         if (mItem != null) {
             // Show corresponding details text
             ((TextView) rootView.findViewById(R.id.part_detail)).setText(mItem.details);
-            if(mItem.id.equals("Blades") || mItem.id.equals("Structure")){
-                setUpSlider(rootView, mItem.id);
-            }
             // Set up blades page
             if (mItem.id.equals("Blades")) {
                 setBladesImage(rootView);
@@ -113,25 +104,47 @@ public class PartDetailFragment extends Fragment {
         bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
-        // Set up ImageView (source set below in dropdown response)
-        final ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
-        blades.getLayoutParams().height = 400;
-        blades.getLayoutParams().width = 400;
+        // Set up blades
+        final ImageView blades[] = {(ImageView) view.findViewById(R.id.blade0),
+                (ImageView) view.findViewById(R.id.blade1),
+                (ImageView) view.findViewById(R.id.blade2),
+                (ImageView) view.findViewById(R.id.blade3),
+                (ImageView) view.findViewById(R.id.blade4),
+                (ImageView) view.findViewById(R.id.blade5),
+                (ImageView) view.findViewById(R.id.blade6),
+                (ImageView) view.findViewById(R.id.blade7),
+                (ImageView) view.findViewById(R.id.blade8),
+                (ImageView) view.findViewById(R.id.blade9),};
+        final int numBlades = setUpBladeNumSlider(view, blades);
 
-        //blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+        // Set size control
+        setUpBladeSizeSlider(view, "Blades", numBlades, blades);
+
+        for (int i = 0; i < blades.length; ++i) {
+            // Initialize size
+            blades[i].getLayoutParams().width = 400;
+            blades[i].getLayoutParams().height = 400;
+        }
 
         // Respond to dropdown
         bladeTypeMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+            int bladeResource = R.drawable.airfoil_blade;
+
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Paddle")) {
                     // Set paddle image
-                    blades.setImageResource(R.drawable.paddles_test);
+                    bladeResource = R.drawable.paddle_blade;
                 } else if (parent.getItemAtPosition(position).equals("Airfoil")) {
                     // Set airfoils image
-                    blades.setImageResource(R.drawable.airfoil_blades);
+                    bladeResource = R.drawable.airfoil_blade;   // set blade type
+                }
+
+                for (int i = 0; i < blades.length; ++i) {
+                    // Rotate blades correctly
+                    blades[i].setImageResource(bladeResource);
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -141,42 +154,51 @@ public class PartDetailFragment extends Fragment {
 
         });
 
-        // Create AnimatorSet for blades
-        AnimatorSet bladesSet = (AnimatorSet) AnimatorInflater.
-                                    loadAnimator(getContext(), R.animator.blades_rotation);
-        bladesSet.setTarget(blades);    // target ImageView
-        bladesSet.start();
-
     }
 
-    public void setUpSlider(View view, String name) {
-        // Set up the seek bar
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seek_bar);
-        seekBar.setMax(99);
-        seekBar.setProgress(50);
+    public int setUpBladeNumSlider(View view, final ImageView[] blades) {
+        // Set up seekBar
+        final SeekBar num_seekBar = (SeekBar) view.findViewById(R.id.blade_num_seekBar);
+        num_seekBar.setMax(9);
+        num_seekBar.setProgress(2);
 
-        // Declare these final so they can be passed into the set listener function
-        final TextView seekBar_text = (TextView) view.findViewById(R.id.seek_bar_percent);
-        final String part_name = name;
-        final View view_final = view;
+        // Initialize rotation
+        for (int i = 0; i < blades.length; ++i) {
+            ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
+                    (360/3) * i, (360/3) * (i + 1));
+            anim.setInterpolator(new LinearInterpolator());
+            anim.setDuration(3900 / 3);
+            anim.setRepeatCount(ObjectAnimator.INFINITE);
+            anim.start();
+        }
 
-        // Set the viewed text to the following:
-        seekBar_text.setText("Bar Progress : " + seekBar.getProgress());
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        // Initialize text
+        final TextView num_textView = (TextView) view.findViewById(R.id.blade_num_textView);
+        num_textView.setText("Number of blades: " + (num_seekBar.getProgress() + 1));
 
-            // ImageView handle
-            final ImageView part_imageView = (ImageView) view_final.findViewById(R.id.part_imageView);
-
-            // When progress changes, change size of blades
+        num_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                final int numBlades = progress + 1;     // for convenience
+                for (int i = 0; i < blades.length; ++i) {
+                    // Set blades visible
+                    if (i <= progress) {
+                        blades[i].setVisibility(ImageView.VISIBLE);
+                    }
+                    else {
+                        blades[i].setVisibility(ImageView.INVISIBLE);
+                    }
 
-                part_imageView.getLayoutParams().height = 300 + (2 * progress);
-                part_imageView.getLayoutParams().width = 300 + (2 * progress);
-                //part_imageView.getAnimation().reset();
-
-
-                seekBar_text.setText(part_name + " size : " + (progress + 1));
+                    // Have to reset animation (rotation position is dependent on animation)
+                    ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
+                            (360/numBlades) * i, (360/numBlades) * (i + 1));
+                    anim.setInterpolator(new LinearInterpolator());
+                    anim.setDuration((3600 + numBlades * 100) / numBlades); // scales to go slightly slower with more blades
+                    anim.setRepeatCount(ObjectAnimator.INFINITE);
+                    anim.start();
+                }
+                // Set text
+                num_textView.setText("Number of blades: " + (num_seekBar.getProgress() + 1));
             }
 
             @Override
@@ -190,9 +212,47 @@ public class PartDetailFragment extends Fragment {
             }
         });
 
+
+        return num_seekBar.getProgress() + 1;
     }
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Nothing yet
+
+    public void setUpBladeSizeSlider(View view, String name, final int numBlades, final ImageView[] blades) {
+        // Set up the seek bar
+        final SeekBar size_seekBar = (SeekBar) view.findViewById(R.id.part_size_seekBar);
+        size_seekBar.setMax(99);
+        size_seekBar.setProgress(50);
+
+        // Declare these final so they can be passed into the set listener function
+        final TextView size_textView = (TextView) view.findViewById(R.id.part_size_textView);
+        final String part_name = name;
+
+        // Set the viewed text to the following:
+        size_textView.setText(part_name + " size: " + (size_seekBar.getProgress() + 1));
+        size_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            // When progress changes, change size of blades
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                for (int i = 0; i < blades.length; ++i) {
+                    blades[i].getLayoutParams().height = 250 + (3 * progress);
+                    blades[i].getLayoutParams().width = 250 + (3 * progress);
+                }
+
+                size_textView.setText(part_name + " size : " + (progress + 1));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
 }

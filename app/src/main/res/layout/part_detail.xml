@@ -18,56 +18,181 @@
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
+    <ImageView
+        android:id="@+id/subpart_template"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <!-- BLADES IMAGEVIEWS HERE (because I can't generate them inside a fragment) -->
+    <ImageView
+        android:id="@+id/blade0"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade1"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade2"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade3"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade4"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade5"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade6"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade7"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade8"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <ImageView
+        android:id="@+id/blade9"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <!-- /BLADES IMAGEVIEWS -->
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top">
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/part_detail"
-            style="?android:attr/textAppearanceLarge"
+        <LinearLayout
+            android:id="@+id/spinner_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top" >
+
+            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/part_detail"
+                style="?android:attr/textAppearanceMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:textIsSelectable="false"
+                tools:context="edu.umich.turbinemaker1.PartDetailFragment"
+                android:layout_gravity="start|top" />
+
+            <Spinner
+                android:id="@+id/part_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:overlapAnchor="false"
+                android:popupBackground="#22000000">
+
+            </Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seekBars_container"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textIsSelectable="false"
-            tools:context="edu.umich.turbinemaker1.PartDetailFragment"
-            android:layout_gravity="start|top"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
 
-        <Spinner
-            android:id="@+id/part_spinner"
-            android:layout_below="@id/part_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:overlapAnchor="false"
-            android:popupBackground="#22000000">
+            <LinearLayout
+                android:id="@+id/blade_num_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom" >
 
-        </Spinner>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="13dp"
+                    android:id="@+id/blade_num_textView"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Large Text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/seek_bar_percent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:gravity="center_horizontal"
-            android:layout_above="@+id/seek_bar"
-            android:layout_centerHorizontal="true" />
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/blade_num_seekBar"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="20dp" />
 
-        <SeekBar
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/seek_bar"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:max="5"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/part_size_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="13dp"
+                    android:id="@+id/part_size_textView"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Large Text" />
+
+                <SeekBar
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/part_size_seekBar"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginBottom="20dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
 
     </RelativeLayout>
 

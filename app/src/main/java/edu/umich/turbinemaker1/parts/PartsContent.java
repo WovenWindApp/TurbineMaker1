@@ -25,7 +25,7 @@ public class PartsContent {
     // CREATE ITEMS HERE
     static {
         // Create Part items
-        Part blades = new Part("Blades", "", "BLADES DETAILS HERE");
+        Part blades = new Part("Blades", "", "Blade Type:");
         Part structure = new Part("Structure", "", "STRUCTURE DETAILS HERE");
         Part output = new Part("Output", "", "OUTPUT DETAILS HERE");
         Part location = new Part("Location", "", "LOCATION DETAILS HERE");

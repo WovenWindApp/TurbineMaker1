@@ -9,7 +9,6 @@
         android:repeatCount="infinite"
         android:repeatMode="restart"
         android:duration="4000"
-        android:valueFrom="0"
         android:valueTo="360"
         android:valueType="floatType" />
 
