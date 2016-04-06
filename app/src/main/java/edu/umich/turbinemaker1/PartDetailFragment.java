@@ -103,7 +103,6 @@ public class PartDetailFragment extends Fragment {
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
         // Set up blades
-        final int numBlades = 3;
         final ImageView blades[] = {(ImageView) view.findViewById(R.id.blade0),
                 (ImageView) view.findViewById(R.id.blade1),
                 (ImageView) view.findViewById(R.id.blade2),
@@ -114,21 +113,16 @@ public class PartDetailFragment extends Fragment {
                 (ImageView) view.findViewById(R.id.blade7),
                 (ImageView) view.findViewById(R.id.blade8),
                 (ImageView) view.findViewById(R.id.blade9),};
+        final int numBlades = setUpBladeNumSlider(view, blades);
 
-        for (int i = 0; i < numBlades; ++i) {
-            // TODO REMOVE
-            blades[i].getLayoutParams().height = 400;
+        // Set size control
+        setUpBladeSizeSlider(view, "Blades", numBlades, blades);
+
+        for (int i = 0; i < blades.length; ++i) {
+            // Initialize size
             blades[i].getLayoutParams().width = 400;
-
-            // Create animation
-            ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
-                    (360/numBlades) * i, (360/numBlades) * (i + 1));
-            anim.setInterpolator(new LinearInterpolator());
-            anim.setDuration(3600 / numBlades);
-            anim.setRepeatCount(ObjectAnimator.INFINITE);
-            anim.start();
+            blades[i].getLayoutParams().height = 400;
         }
-
 
         // Respond to dropdown
         bladeTypeMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -143,7 +137,7 @@ public class PartDetailFragment extends Fragment {
                     bladeResource = R.drawable.airfoil_blade;   // set blade type
                 }
 
-                for (int i = 0; i < numBlades; ++i) {
+                for (int i = 0; i < blades.length; ++i) {
                     // Rotate blades correctly
                     blades[i].setImageResource(bladeResource);
                 }
@@ -158,33 +152,92 @@ public class PartDetailFragment extends Fragment {
 
         });
 
-        setUpBladeSizeSlider(view, "Blades", numBlades, blades);
+    }
+
+    public int setUpBladeNumSlider(View view, final ImageView[] blades) {
+        // Set up seekBar
+        final SeekBar num_seekBar = (SeekBar) view.findViewById(R.id.blade_num_seekBar);
+        num_seekBar.setMax(9);
+        num_seekBar.setProgress(2);
+
+        // Initialize rotation
+        for (int i = 0; i < blades.length; ++i) {
+            ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
+                    (360/3) * i, (360/3) * (i + 1));
+            anim.setInterpolator(new LinearInterpolator());
+            anim.setDuration(3600 / 3);
+            anim.setRepeatCount(ObjectAnimator.INFINITE);
+            anim.start();
+        }
+
+        // Initialize text
+        final TextView num_textView = (TextView) view.findViewById(R.id.blade_num_textView);
+        num_textView.setText("Number of blades: " + (num_seekBar.getProgress() + 1));
+
+        num_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                final int numBlades = progress + 1;     // for convenience
+                for (int i = 0; i < blades.length; ++i) {
+                    // Set blades visible
+                    if (i <= progress) {
+                        blades[i].setVisibility(ImageView.VISIBLE);
+                    }
+                    else {
+                        blades[i].setVisibility(ImageView.INVISIBLE);
+                    }
+
+                    // Have to reset animation (rotation position is dependent on animation)
+                    ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
+                            (360/numBlades) * i, (360/numBlades) * (i + 1));
+                    anim.setInterpolator(new LinearInterpolator());
+                    anim.setDuration(3600 / numBlades);
+                    anim.setRepeatCount(ObjectAnimator.INFINITE);
+                    anim.start();
+                }
+                // Set text
+                num_textView.setText("Number of blades: " + (num_seekBar.getProgress() + 1));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        return num_seekBar.getProgress() + 1;
     }
 
     public void setUpBladeSizeSlider(View view, String name, final int numBlades, final ImageView[] blades) {
         // Set up the seek bar
-        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.part_size_seekBar);
-        seekBar.setMax(99);
-        seekBar.setProgress(50);
+        final SeekBar size_seekBar = (SeekBar) view.findViewById(R.id.part_size_seekBar);
+        size_seekBar.setMax(99);
+        size_seekBar.setProgress(50);
 
         // Declare these final so they can be passed into the set listener function
-        final TextView seekBar_text = (TextView) view.findViewById(R.id.part_size_textView);
+        final TextView size_textView = (TextView) view.findViewById(R.id.part_size_textView);
         final String part_name = name;
 
         // Set the viewed text to the following:
-        seekBar_text.setText(part_name + " size : " + (seekBar.getProgress() + 1));
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        size_textView.setText(part_name + " size: " + (size_seekBar.getProgress() + 1));
+        size_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             // When progress changes, change size of blades
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                for (int i = 0; i < numBlades; ++i) {
+                for (int i = 0; i < blades.length; ++i) {
                     blades[i].getLayoutParams().height = 300 + (2 * progress);
                     blades[i].getLayoutParams().width = 300 + (2 * progress);
                 }
 
-                seekBar_text.setText(part_name + " size : " + (progress + 1));
+                size_textView.setText(part_name + " size : " + (progress + 1));
             }
 
             @Override
