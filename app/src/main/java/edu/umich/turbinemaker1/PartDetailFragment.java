@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -131,7 +133,7 @@ public class PartDetailFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Paddle")) {
                     // Set paddle image
-                    bladeResource = R.drawable.paddles_test;
+                    bladeResource = R.drawable.paddle_blade;
                 } else if (parent.getItemAtPosition(position).equals("Airfoil")) {
                     // Set airfoils image
                     bladeResource = R.drawable.airfoil_blade;   // set blade type
@@ -165,7 +167,7 @@ public class PartDetailFragment extends Fragment {
             ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
                     (360/3) * i, (360/3) * (i + 1));
             anim.setInterpolator(new LinearInterpolator());
-            anim.setDuration(3600 / 3);
+            anim.setDuration(3900 / 3);
             anim.setRepeatCount(ObjectAnimator.INFINITE);
             anim.start();
         }
@@ -191,7 +193,7 @@ public class PartDetailFragment extends Fragment {
                     ObjectAnimator anim = ObjectAnimator.ofFloat(blades[i], "rotation",
                             (360/numBlades) * i, (360/numBlades) * (i + 1));
                     anim.setInterpolator(new LinearInterpolator());
-                    anim.setDuration(3600 / numBlades);
+                    anim.setDuration((3600 + numBlades * 100) / numBlades); // scales to go slightly slower with more blades
                     anim.setRepeatCount(ObjectAnimator.INFINITE);
                     anim.start();
                 }
@@ -233,8 +235,8 @@ public class PartDetailFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 for (int i = 0; i < blades.length; ++i) {
-                    blades[i].getLayoutParams().height = 300 + (2 * progress);
-                    blades[i].getLayoutParams().width = 300 + (2 * progress);
+                    blades[i].getLayoutParams().height = 250 + (3 * progress);
+                    blades[i].getLayoutParams().width = 250 + (3 * progress);
                 }
 
                 size_textView.setText(part_name + " size : " + (progress + 1));
