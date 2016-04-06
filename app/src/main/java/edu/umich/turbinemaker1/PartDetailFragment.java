@@ -158,12 +158,10 @@ public class PartDetailFragment extends Fragment {
 
         });
 
-        SeekBar part_size_seekBar = (SeekBar) view.findViewById(R.id.part_size_seek_bar);
-        part_size_seekBar.
-
+        setUpSlider(view, "Blades", numBlades, blades);
     }
 
-    public void setUpSlider(View view, String name) {
+    public void setUpSlider(View view, String name, final int numBlades, final ImageView[] blades) {
         // Set up the seek bar
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.part_size_seek_bar);
         seekBar.setMax(99);
@@ -178,16 +176,14 @@ public class PartDetailFragment extends Fragment {
         seekBar_text.setText(part_name + " size : " + (seekBar.getProgress() + 1));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-            // ImageView handle
-            final ImageView part_imageView = (ImageView) view_final.findViewById(R.id.part_imageView);
-
             // When progress changes, change size of blades
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                part_imageView.getLayoutParams().height = 300 + (2 * progress);
-                part_imageView.getLayoutParams().width = 300 + (2 * progress);
-
+                for (int i = 0; i < numBlades; ++i) {
+                    blades[i].getLayoutParams().height = 300 + (2 * progress);
+                    blades[i].getLayoutParams().width = 300 + (2 * progress);
+                }
 
                 seekBar_text.setText(part_name + " size : " + (progress + 1));
             }
@@ -203,9 +199,6 @@ public class PartDetailFragment extends Fragment {
             }
         });
 
-    }
-    public void onNothingSelected(AdapterView<?> parent) {
-        // Nothing yet
     }
 
 }
