@@ -18,6 +18,84 @@
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
+    <ImageView
+        android:id="@+id/subpart_template"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade0"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade1"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade2"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade3"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade4"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade5"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade6"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade7"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade8"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/blade9"
+        android:contentDescription="@string/part_image_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,9 +141,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/seek_bar"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:max="5"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="100dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 

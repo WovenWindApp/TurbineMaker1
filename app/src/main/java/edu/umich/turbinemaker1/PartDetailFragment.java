@@ -3,8 +3,12 @@ package edu.umich.turbinemaker1;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.RotateDrawable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -19,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -113,25 +118,49 @@ public class PartDetailFragment extends Fragment {
         bladeTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
-        // Set up ImageView (source set below in dropdown response)
-        final ImageView blades = (ImageView) view.findViewById(R.id.part_imageView);
-        blades.getLayoutParams().height = 400;
-        blades.getLayoutParams().width = 400;
+        // Set up ImageViews (source set below in dropdown response)
+        final ImageView bladeBase = (ImageView) view.findViewById(R.id.part_imageView);
+        bladeBase.getLayoutParams().height = 400;
+        bladeBase.getLayoutParams().width = 400;
 
-        //blades.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.rotate_center));
+        final int numBlades = 3;
+        final ImageView blades[] = {(ImageView) view.findViewById(R.id.blade0),
+                (ImageView) view.findViewById(R.id.blade1),
+                (ImageView) view.findViewById(R.id.blade2),
+                (ImageView) view.findViewById(R.id.blade3),
+                (ImageView) view.findViewById(R.id.blade4),
+                (ImageView) view.findViewById(R.id.blade5),
+                (ImageView) view.findViewById(R.id.blade6),
+                (ImageView) view.findViewById(R.id.blade7),
+                (ImageView) view.findViewById(R.id.blade8),
+                (ImageView) view.findViewById(R.id.blade9),};
+
+        for (int i = 0; i < blades.length; ++i) {
+            blades[i].getLayoutParams().height = 400;
+            blades[i].getLayoutParams().width = 400;
+        }
+
 
         // Respond to dropdown
         bladeTypeMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
+            int bladeResource = R.drawable.airfoil_blade;
+
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("Paddle")) {
                     // Set paddle image
-                    blades.setImageResource(R.drawable.paddles_test);
+                    bladeResource = R.drawable.paddles_test;
                 } else if (parent.getItemAtPosition(position).equals("Airfoil")) {
                     // Set airfoils image
-                    blades.setImageResource(R.drawable.airfoil_blades);
+                    bladeResource = R.drawable.airfoil_blade;   // set blade type
+                }
+
+                for (int i = 0; i < numBlades; ++i) {
+                    // Rotate blades correctly
+                    blades[i].setImageResource(bladeResource);
+                    blades[i].setRotation((360 / numBlades) * i);
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -142,10 +171,19 @@ public class PartDetailFragment extends Fragment {
         });
 
         // Create AnimatorSet for blades
-        AnimatorSet bladesSet = (AnimatorSet) AnimatorInflater.
-                                    loadAnimator(getContext(), R.animator.blades_rotation);
-        bladesSet.setTarget(blades);    // target ImageView
-        bladesSet.start();
+//        AnimatorSet bladeBaseSet = (AnimatorSet) AnimatorInflater.
+//                                    loadAnimator(getContext(), R.animator.blades_rotation);
+//        bladeBaseSet.setTarget(bladeBase);    // target ImageView
+//        bladeBaseSet.start();
+
+        for (int i = 0; i < numBlades; ++i) {
+            AnimatorSet bladeSet = (AnimatorSet) AnimatorInflater.
+                    loadAnimator(getContext(), R.animator.blades_rotation);
+            bladeSet.setTarget(blades[i]);
+            bladeSet.start();
+        }
+
+
 
     }
 
