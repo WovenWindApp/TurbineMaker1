@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 /**
  * An activity representing a single Part detail screen. This
