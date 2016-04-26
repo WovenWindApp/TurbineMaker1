@@ -11,6 +11,13 @@
     <string name="new_game">New Game</string>
     <string name="about">About</string>
 
+    <!--userData Strings-->
+    <string name="num_blades_key">edu.umich.TurbineMaker1.num_blades_key</string>
+    <string name="blade_size_key">edu.umich.TurbineMaker1.blade_size_key</string>
+    <string name="blade_type_key">edu.umich.TurbineMaker1.blade_type_key</string>
+    <string name="structure_width_key">edu.umich.TurbineMaker1.structure_width_key</string>
+    <string name="structure_height_key">edu.umich.TurbineMaker1.structure_height_key</string>
+
     <!--PartsList Strings-->
     <string name="part_image_desc">Contains preview of parts while constructing</string>
 

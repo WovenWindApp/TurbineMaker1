@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import edu.umich.turbinemaker1.parts.PartsContent;
@@ -60,6 +61,9 @@ public class PartListActivity extends AppCompatActivity {
             }
         });
         // /REPLACE ME
+
+        //Toast.makeText(this, "activity onCreate called", Toast.LENGTH_SHORT).show();
+
 
         View recyclerView = findViewById(R.id.part_list);
         assert recyclerView != null;
