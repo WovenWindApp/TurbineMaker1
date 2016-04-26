@@ -99,7 +99,9 @@ public class PartDetailFragment extends Fragment {
                     break;
                 case "Structure":   // TODO
                     break;
-                case "Location": userDataEditor.clear().apply();
+                case "Output":  // TODO
+                    break;
+                case "Location": userDataEditor.clear().apply();    // TODO make this a real section
             }
         }
 
