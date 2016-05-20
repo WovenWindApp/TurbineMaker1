@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -86,7 +85,8 @@ public class PartDetailFragment extends Fragment {
 
 //        Toast.makeText(getContext(), "onCreateView called", Toast.LENGTH_SHORT).show();
 
-        SharedPreferences userData = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences userData = getActivity().getSharedPreferences(
+                getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor userDataEditor = userData.edit();
 
 
@@ -97,11 +97,13 @@ public class PartDetailFragment extends Fragment {
             switch (mItem.id) {
                 case "Blades": setUpBlades(rootView);
                     break;
-                case "Structure":   // TODO
+                case "Structure": setUpStructure(rootView);
                     break;
                 case "Output":  // TODO
                     break;
-                case "Location": userDataEditor.clear().apply();    // TODO make this a real section
+                case "Location": // TODO make this a real section
+                    userDataEditor.clear().apply();
+                    break;
             }
         }
 
@@ -120,6 +122,12 @@ public class PartDetailFragment extends Fragment {
 //        Toast.makeText(getContext(), "onPause called", Toast.LENGTH_SHORT).show();
     }
 
+    //  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    //  - - - - - - - - - - - - - -  FUNCTIONS FOR EACH PART SET UP - - - - - - - - - - - - - - - -
+    //  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+    // BLADES - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     public void setUpBlades(View view) {
         ImageView[] blades = getBladeImageViewHandles(view);
         setUpBladeNumSlider(view, blades);
@@ -129,11 +137,11 @@ public class PartDetailFragment extends Fragment {
 
     public int setUpBladeNumSlider(View view, final ImageView[] blades) {
         // Load saved blade number, or default 3
-        final SharedPreferences userData = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences userData = getActivity().getSharedPreferences(getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
         int savedNumBlades = userData.getInt(getString(R.string.num_blades_key), 3);
 
         // Set up seekBar
-        final SeekBar num_seekBar = (SeekBar) view.findViewById(R.id.blade_num_seekBar);
+        final SeekBar num_seekBar = (SeekBar) view.findViewById(R.id.first_seekBar);
         num_seekBar.setMax(9);
         num_seekBar.setProgress(savedNumBlades - 1);
 
@@ -156,7 +164,7 @@ public class PartDetailFragment extends Fragment {
         }
 
         // Initialize text
-        final TextView num_textView = (TextView) view.findViewById(R.id.blade_num_textView);
+        final TextView num_textView = (TextView) view.findViewById(R.id.first_seekBar_textView);
         num_textView.setText("Number of blades: " + (savedNumBlades));
 
         num_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -205,7 +213,8 @@ public class PartDetailFragment extends Fragment {
         String name = mItem.id;
 
         // Get saved size or default 397 (50 progress)
-        final SharedPreferences userData = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences userData = getActivity().getSharedPreferences(
+                getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
         int savedSize = userData.getInt(getString(R.string.blade_size_key), 397);
 
         for (ImageView blade : blades) {
@@ -215,16 +224,16 @@ public class PartDetailFragment extends Fragment {
         }
 
         // Set up the seek bar
-        final SeekBar size_seekBar = (SeekBar) view.findViewById(R.id.part_size_seekBar);
+        final SeekBar size_seekBar = (SeekBar) view.findViewById(R.id.second_seekBar);
         size_seekBar.setMax(99);
         size_seekBar.setProgress((savedSize - 250) / 3);
 
         // Declare these final so they can be passed into the set listener function
-        final TextView size_textView = (TextView) view.findViewById(R.id.part_size_textView);
+        final TextView size_textView = (TextView) view.findViewById(R.id.second_seekBar_textView);
         final String part_name = name;
 
         // Set the viewed text to the following:
-        size_textView.setText(part_name + " size: " + (size_seekBar.getProgress() + 1));
+        size_textView.setText(part_name + " size: ");
         size_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             // When progress changes, change size of blades
@@ -235,7 +244,7 @@ public class PartDetailFragment extends Fragment {
                     blade.getLayoutParams().height = bladeSize;
                     blade.getLayoutParams().width = bladeSize;
                 }
-                size_textView.setText(part_name + " size : " + (progress + 1));
+                size_textView.setText(part_name + " size: ");
             }
 
             @Override
@@ -264,7 +273,8 @@ public class PartDetailFragment extends Fragment {
         bladeTypeMenu.setAdapter(bladeTypeAdapter);
 
         // Load saved blade type or default: paddle blades
-        final SharedPreferences userData = getActivity().getPreferences(Context.MODE_PRIVATE);
+        final SharedPreferences userData = getActivity().getSharedPreferences(
+                getResources().getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
         String savedBladeType = userData.getString(getString(R.string.blade_type_key), bladeTypeArray[0]);
         bladeTypeMenu.setSelection(bladeTypeAdapter.getPosition(savedBladeType));
 
@@ -307,5 +317,101 @@ public class PartDetailFragment extends Fragment {
                                 (ImageView) view.findViewById(R.id.blade9)};
         return blades;
     }
+
+    // STRUCTURE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    public void setUpStructure(View view) {
+        ImageView structure = getStructureImageView(view);
+        setUpStructureWidthSlider(view, structure);
+        setUpStructureHeightSlider(view, structure);
+    }
+
+    public void setUpStructureHeightSlider(View view, final ImageView structure) {
+
+        // Get saved size or default 397 (50 on progress bar)
+        final SharedPreferences userData = getActivity().getSharedPreferences(
+                getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
+        int savedHeight = userData.getInt(getString(R.string.structure_height_key), 397);
+
+        // Initialize size
+        structure.getLayoutParams().height = savedHeight;
+
+        final SeekBar height_seekBar = (SeekBar) view.findViewById(R.id.first_seekBar);
+        height_seekBar.setMax(99);
+        height_seekBar.setProgress((savedHeight - 250) / 3);
+
+        final TextView height_seekBar_textView = (TextView) view.findViewById(R.id.first_seekBar_textView);
+        height_seekBar_textView.setText("Height: ");
+
+        height_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                structure.getLayoutParams().height = 250 + (3 * progress);
+                // won't update without this --v ... WHY???
+                height_seekBar_textView.setText("Height: ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                userData.edit().putInt(getString(R.string.structure_height_key),
+                        250 + (3 * height_seekBar.getProgress())).apply();
+            }
+        });
+    }
+
+    public void setUpStructureWidthSlider(View view, final ImageView structure) {
+
+        // Get saved size or default 397 (50 on progress bar)
+        final SharedPreferences userData = getActivity().getSharedPreferences(
+                getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
+        int savedWidth = userData.getInt(getString(R.string.structure_width_key), 397);
+
+        // Initialize size
+        structure.getLayoutParams().width = savedWidth;
+
+        final SeekBar width_seekBar = (SeekBar) view.findViewById(R.id.second_seekBar);
+        width_seekBar.setMax(99);
+        width_seekBar.setProgress((savedWidth - 250) / 3);
+
+        final TextView width_seekBar_textView = (TextView) view.findViewById(R.id.second_seekBar_textView);
+        width_seekBar_textView.setText("Width: ");
+
+        width_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                structure.getLayoutParams().width = 250 + (3 * progress);
+                width_seekBar_textView.setText("Width: ");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                userData.edit().putInt(getString(R.string.structure_width_key),
+                        250 + (3 * width_seekBar.getProgress())).apply();
+            }
+        });
+    }
+
+
+
+    public ImageView getStructureImageView(View view) {
+        ImageView structure = (ImageView) view.findViewById(R.id.part_imageView);
+        structure.setImageResource(R.drawable.windmill);
+        structure.setVisibility(View.VISIBLE);
+
+        // TODO have size only set by seek bars
+        structure.getLayoutParams().height = 397;
+
+        return structure;
+    }
+
 
 }

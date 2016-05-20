@@ -5,18 +5,18 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_part_list">Parts</string>
     <string name="title_part_detail">Part Detail</string>
+    <string name="done">Done</string>
 
 
     <!--Main Screen Strings-->
-    <string name="new_game">New Game</string>
+    <string name="new_game">Start</string>
     <string name="about">About</string>
 
-    <!--userData Strings-->
-    <string name="num_blades_key">edu.umich.TurbineMaker1.num_blades_key</string>
-    <string name="blade_size_key">edu.umich.TurbineMaker1.blade_size_key</string>
-    <string name="blade_type_key">edu.umich.TurbineMaker1.blade_type_key</string>
-    <string name="structure_width_key">edu.umich.TurbineMaker1.structure_width_key</string>
-    <string name="structure_height_key">edu.umich.TurbineMaker1.structure_height_key</string>
+    <!--New Game setup strings-->
+    <string name="whats_your_name">What\'s your name?</string>
+    <string name="enter_name">Please enter your name</string>
+    <string name="how_old">How old are you?</string>
+    <string name="enter_age">Please enter your age</string>
 
     <!--PartsList Strings-->
     <string name="part_image_desc">Contains preview of parts while constructing</string>
@@ -27,5 +27,16 @@
         <item>Airfoil</item>
     </string-array>
 
+    <!--userData Strings-->
+    <string name="userData_pref_key">edu.umich.TurbineMaker1.userData_sharedPreferences_key</string>
+    <string name="user_name_key">edu.umich.TurbineMaker1.user_name_key</string>
+    <string name="user_age_key">edu.umich.Turbinemaker1.user_age_key</string>
+
+    <string name="num_blades_key">edu.umich.TurbineMaker1.num_blades_key</string>
+    <string name="blade_size_key">edu.umich.TurbineMaker1.blade_size_key</string>
+    <string name="blade_type_key">edu.umich.TurbineMaker1.blade_type_key</string>
+
+    <string name="structure_width_key">edu.umich.TurbineMaker1.structure_width_key</string>
+    <string name="structure_height_key">edu.umich.TurbineMaker1.structure_height_key</string>
 
 </resources>
