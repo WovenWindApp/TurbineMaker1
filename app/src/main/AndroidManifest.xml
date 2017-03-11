@@ -42,7 +42,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GetName" />
-        <activity android:name=".GetAge"></activity>
+        <activity android:name=".GetAge" />
+        <activity android:name=".MapPlacement"></activity>
     </application>
 
 </manifest>

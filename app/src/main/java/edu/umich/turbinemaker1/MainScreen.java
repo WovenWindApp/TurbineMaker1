@@ -182,5 +182,12 @@ public class MainScreen extends AppCompatActivity {
         startActivity(startIntent);
     }
 
+    // Location placeholder
+    public void goToMapActivity(View view) {
+        // Create intent
+        Intent startIntent = new Intent(this, MapPlacement.class);
+        startActivity(startIntent);
+    }
+
 
 }
