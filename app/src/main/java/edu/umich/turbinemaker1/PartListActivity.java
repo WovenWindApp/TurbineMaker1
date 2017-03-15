@@ -3,6 +3,7 @@ package edu.umich.turbinemaker1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,9 +61,18 @@ public class PartListActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        // /REPLACE ME
 
-        //Toast.makeText(this, "activity onCreate called", Toast.LENGTH_SHORT).show();
+        final SharedPreferences userData = this.getSharedPreferences(
+                getResources().getString(R.string.userData_pref_key), Context.MODE_PRIVATE);
+
+        // Get user info
+        String user_name_key = getResources().getString(R.string.user_name_key);
+        String user_age_key = getResources().getString(R.string.user_age_key);
+
+        String user_name = userData.getString(user_name_key, "default");
+        Integer user_age = userData.getInt(user_age_key, -1);
+
+        Toast.makeText(this, user_name + ", " + user_age.toString(), Toast.LENGTH_SHORT).show();
 
 
         View recyclerView = findViewById(R.id.part_list);
@@ -135,6 +145,7 @@ public class PartListActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.part_detail_container, fragment)
                                 .commit();
+                        //Toast.makeText(v.getContext(), "test", Toast.LENGTH_SHORT).show();
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, PartDetailActivity.class);
@@ -172,8 +183,6 @@ public class PartListActivity extends AppCompatActivity {
     }
 
     private void setNavBar() {
-        navView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        navView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }

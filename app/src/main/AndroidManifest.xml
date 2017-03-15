@@ -17,7 +17,6 @@
             android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
             </intent-filter>
         </activity>
         <activity
@@ -42,6 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GetName" />
+        <activity android:name=".GetAge" />
+        <activity android:name=".MapPlacement" />
+        <activity android:name=".TurbineDesign"></activity>
     </application>
 
 </manifest>

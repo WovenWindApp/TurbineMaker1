@@ -33,8 +33,8 @@ public class PartsContent {
         // Add items
         addItem(blades);
         addItem(structure);
-        addItem(output);
-        addItem(location);
+        //addItem(output);
+        //addItem(location);
     }
 
     private static void addItem(Part item) {

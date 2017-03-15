@@ -178,8 +178,20 @@ public class MainScreen extends AppCompatActivity {
     // New Game button
     public void goToPartActivity(View view) {
         // Create intent
-        Intent partIntent = new Intent(this, PartListActivity.class);
-        startActivity(partIntent);
+        Intent startIntent = new Intent(this, GetName.class);
+        startActivity(startIntent);
+    }
+
+    // Location placeholder
+    public void goToMapActivity(View view) {
+        // Create intent
+        Intent startIntent = new Intent(this, MapPlacement.class);
+        startActivity(startIntent);
+    }
+
+    public void goToTurbineDesign(View view) {
+        Intent startIntent = new Intent(this, TurbineDesign.class);
+        startActivity(startIntent);
     }
 
 
