@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +57,7 @@ public class MapPlacement extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
 
             // Create drag shadow
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+            View.DragShadowBuilder shadowBuilder = new TurbineDragShadowBuilder(v);
 
             // Start drag
             v.startDrag(null, shadowBuilder, v, 0);
@@ -64,6 +66,35 @@ public class MapPlacement extends AppCompatActivity {
             return false;
         }
     };
+
+    // Turbine drag shadow builder (image that shows when you drag)
+    private static class TurbineDragShadowBuilder extends View.DragShadowBuilder {
+        // Drag shadow drawable
+        private View shadowView;
+
+        public TurbineDragShadowBuilder(View v) {
+            super(v);
+            shadowView = v;
+        }
+
+        // Callback that sends drag shadow dimensions and touch point back to system
+        @Override
+        public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+            int width, height;
+;
+            width = shadowView.getWidth();
+            height = shadowView.getHeight();
+
+            shadowSize.set(width, height);
+            shadowTouchPoint.set(width / 2, height / 2);
+
+        }
+
+        @Override
+        public void onDrawShadow(Canvas canvas) {
+            shadowView.draw(canvas);
+        }
+    }
 
     protected class MapDragEventListener implements View.OnDragListener {
         @Override
@@ -138,7 +169,7 @@ public class MapPlacement extends AppCompatActivity {
 
             return false;
         }
-    };
+    }
 
 }
 

@@ -189,5 +189,10 @@ public class MainScreen extends AppCompatActivity {
         startActivity(startIntent);
     }
 
+    public void goToTurbineDesign(View view) {
+        Intent startIntent = new Intent(this, TurbineDesign.class);
+        startActivity(startIntent);
+    }
+
 
 }

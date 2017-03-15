@@ -80,6 +80,18 @@
                 android:layout_below="@+id/main_screen_button_2"
                 android:layout_alignEnd="@+id/main_screen_button_2"
                 android:layout_marginTop="5dp" />
+
+            <Button
+                android:id="@+id/main_screen_button_4"
+                android:background="@drawable/main_screen_button"
+                android:onClick="goToTurbineDesign"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:text="TurbineDesign"
+                android:textColor="#000000"
+                android:layout_below="@+id/main_screen_button_3"
+                android:layout_alignEnd="@+id/main_screen_button_3"
+                android:layout_marginTop="5dp" />
         </RelativeLayout>
 
     </FrameLayout>
