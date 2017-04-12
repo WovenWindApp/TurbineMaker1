@@ -13,6 +13,66 @@
         android:layout_height="match_parent"
         android:background="@drawable/blueprint">
 
+        <!--Horizontal scaling lin layout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:contentDescription="@string/buffer_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <!--Vertical scaling lin layout-->
+            <LinearLayout
+                android:id="@+id/turbine_width_parameter"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25">
+
+                <FrameLayout
+                    android:contentDescription="@string/buffer_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <FrameLayout
+                    android:id="@+id/turbine_height_parameter"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        android:id="@+id/turbine_design_structure"
+                        android:background="@drawable/white_rectangle"
+                        android:scaleType="fitXY"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </FrameLayout>
+
+
+                <FrameLayout
+                    android:contentDescription="@string/buffer_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:contentDescription="@string/buffer_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 

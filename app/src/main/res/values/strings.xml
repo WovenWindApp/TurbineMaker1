@@ -39,4 +39,7 @@
     <string name="structure_width_key">edu.umich.TurbineMaker1.structure_width_key</string>
     <string name="structure_height_key">edu.umich.TurbineMaker1.structure_height_key</string>
 
+    <!--Turbine Design-->
+    <string name="buffer_view">Empty view that acts as a buffer zone for scaling purposes</string>
+
 </resources>
