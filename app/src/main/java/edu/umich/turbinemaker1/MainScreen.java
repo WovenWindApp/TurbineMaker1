@@ -178,7 +178,7 @@ public class MainScreen extends AppCompatActivity {
     // New Game button
     public void goToPartActivity(View view) {
         // Create intent
-        Intent startIntent = new Intent(this, GetName.class);
+        Intent startIntent = new Intent(this, PartListActivity.class);
         startActivity(startIntent);
     }
 

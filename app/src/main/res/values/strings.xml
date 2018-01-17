@@ -41,5 +41,7 @@
 
     <!--Turbine Design-->
     <string name="buffer_view">Empty view that acts as a buffer zone for scaling purposes</string>
+    <string name="height">Height: </string>
+    <string name="width">Width: </string>
 
 </resources>

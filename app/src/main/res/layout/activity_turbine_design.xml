@@ -13,6 +13,17 @@
         android:layout_height="match_parent"
         android:background="@drawable/blueprint">
 
+        <!-- BLADES -->
+        <ImageView
+            android:id="@+id/blades_placement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/airfoil_blades"/>
+
+
+        <!-- STRUCTURE HERE -->
         <!--Horizontal scaling lin layout-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +34,7 @@
                 android:contentDescription="@string/buffer_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="100"/>
 
             <!--Vertical scaling lin layout-->
             <LinearLayout
@@ -31,19 +42,19 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25">
+                android:layout_weight="10">
 
                 <FrameLayout
                     android:contentDescription="@string/buffer_view"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="10"/>
 
                 <FrameLayout
                     android:id="@+id/turbine_height_parameter"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3">
+                    android:layout_weight="50">
 
                     <ImageView
                         android:id="@+id/turbine_design_structure"
@@ -59,7 +70,7 @@
                     android:contentDescription="@string/buffer_view"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="10"/>
 
             </LinearLayout>
 
@@ -67,7 +78,7 @@
                 android:contentDescription="@string/buffer_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="100"/>
 
 
         </LinearLayout>
@@ -80,7 +91,60 @@
     <LinearLayout
         android:layout_weight="2"
         android:layout_width="0dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Height SeekBar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/height"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+
+            <SeekBar
+                android:id="@+id/turbine_height_seekbar"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"/>
+
+
+        </LinearLayout>
+
+        <!-- Weight SeekBar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/width"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"/>
+
+            <SeekBar
+                android:id="@+id/turbine_width_seekbar"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"/>
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 
